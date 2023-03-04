@@ -1,0 +1,63 @@
+﻿@model IEnumerable<User>
+@inject Microsoft.AspNetCore.Identity.UserManager<User> _usermanager
+
+<div class="container-fluid">
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>User Email</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Roles</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th>User Email</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Roles</th>
+                            <th>#</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>#</td>
+                                <td>@item.Email</td>
+                                <td>@item.Name</td>
+                                <td>@item.Surname</td>
+                                <td>
+                                    @{
+                                        var roles = await _usermanager.GetRolesAsync(item);
+                                        foreach (var role in roles)
+                                        {
+                                            <span>@role</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    <a href="/admin/user/addrole/@item.Id" class="btn btn-warning">Add Role</a>
+                                    <a href="/admin/user/addrole" class="btn btn-danger">Delete Role</a>
+                                </td>
+                                
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- DataTales Example -->
